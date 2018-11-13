@@ -2,38 +2,43 @@ import java.util.Date;
 
 public class Driver {
     private DriverStatus driverStatus;
-    private String startAdress;
-    private String targetAdress;
+    private String startAddress;
+    private String targetAddress;
     private Date estArrival;
 
     public Driver() {
         this.driverStatus = DriverStatus.INACTIVE;
     }
 
-    public Driver(String startAdress) {
+    public Driver(String startAddress) {
         this.driverStatus = DriverStatus.WAITING;
-        this.startAdress = startAdress;
+        this.startAddress = startAddress;
     }
+
+    public void createNewRide(String targetAddress, Date estArrival) {
+        this.driverStatus = DriverStatus.ONTIME;
+        this.targetAddress = targetAddress;
+        this.estArrival = estArrival;
+    }
+
+
+
+    //getter & setter
 
     public void setStatus(DriverStatus newStatus) {
         driverStatus = newStatus;
-    }
-
-    public void createNewRide(String targetAdress, Date estArrival) {
-        this.targetAdress = targetAdress;
-        this.estArrival = estArrival;
     }
 
     public DriverStatus getStatus() {
         return this.driverStatus;
     }
 
-    public String getTargetAdress() {
-        return targetAdress;
+    public String getTargetAddress() {
+        return targetAddress;
     }
 
-    public void setTargetAdress(String targetAdress) {
-        this.targetAdress = targetAdress;
+    public void setTargetAddress(String targetAddress) {
+        this.targetAddress = targetAddress;
     }
 
     public Date getEstArrival() {
