@@ -13,11 +13,11 @@ public class HardCodedDriver {
 
     //to change----------------------------------
     int taxi = 1;
+    String status = "active";
 
     String city = "Berlin";
     String address = "Schlossstrasse";
     int number = 5;
-    String status = "active";
 
     String endCity = "Bonn";
     String endAddress = "Hauptstrasse";
@@ -34,10 +34,27 @@ public class HardCodedDriver {
     }
 
     public void main(String[] args) {
-        String ressource = "/update/taxi";
 
-        String json = "{\n" +
-                "\"taxi\":";
+        String ressource = "/update/taxi";
+        String json;
+        if (status.equals("active")) {
+            json = "{\n" +
+                    "\"taxi\": " + taxi + "\n" +
+                    "\"status\": " + city + "\n" +
+                    "\"city\": " + city + "\n" +
+                    "\"address\": " + city + "\n" +
+                    "\"number\": " + city + "\n" +
+                    "\"endCity\": " + city + "\n" +
+                    "\"endAddress\": " + city + "\n" +
+                    "\"endNumber\": " + city + "\n" +
+                    "}";
+        } else {
+            json = "{\n" +
+                    "\"taxi\": " + taxi + "\n" +
+                    "\"status\": " + city + "\n" +
+                    "}";
+        }
+
 
         try {
             BufferedWriter postToServer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
