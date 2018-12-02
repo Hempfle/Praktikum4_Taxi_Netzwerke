@@ -156,15 +156,22 @@ public class Controlhub extends TimerTask {
                 int valid = 0;
                 String jason = "";
                 boolean isBody = false;
-                for (String line = taxiReader.readLine(); line != null; line =  taxiReader.readLine()) {
-                        isBody = line.equals("\r\n");
+                for (String line = taxiReader.readLine(); line != null; line = taxiReader.readLine()) {
+                    isBody = line.equals("\r\n");
 
-                        if (isBody) {
-                            jason += line;
-                        }
+                    if (isBody) {
+                        jason += line;
+                    }
+                }
+                JsonObject response = getJsonObjectFromUrl("http://localhost:8005");
+                if (hub.server.getTheResponse(response).getDriverNumber() == driverOne.getDriverNumber()) {
+                    driverOne = hub.server.getTheResponse(response);
+                } else if (hub.server.getTheResponse(response).getDriverNumber() == driverTwo.getDriverNumber()) {
+                    driverTwo = hub.server.getTheResponse(response);
+                } else if (hub.server.getTheResponse(response).getDriverNumber() == driverThree.getDriverNumber()) {
+                    driverThree = hub.server.getTheResponse(response);
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
