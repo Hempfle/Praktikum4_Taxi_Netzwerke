@@ -34,6 +34,7 @@ public class ControlhubServerAPI {
     }
 
     public Driver getTheResponse(JsonObject request) {
+        int taxiNum = request.getInt("taxi");
         String startCity = request.getString("city");
         String startStreet = request.getString("address");
         int startNum = request.getInt("number");
