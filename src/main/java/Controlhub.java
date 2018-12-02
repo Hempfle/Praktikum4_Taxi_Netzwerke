@@ -141,7 +141,7 @@ public class Controlhub extends TimerTask {
 
 
 
-        Socket taxiClient = server.openConnection();
+        Socket taxiClient = hub.server.openConnection();
 
         try {
             BufferedReader taxiReader = new BufferedReader(new InputStreamReader(taxiClient.getInputStream()));
