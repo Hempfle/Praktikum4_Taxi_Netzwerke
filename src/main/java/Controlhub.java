@@ -19,9 +19,18 @@ public class Controlhub extends TimerTask {
     private static final int PORT = 8005;
     private ControlhubServerAPI server;
 
-    static Driver driverOne = new Driver("Schlossstrasse", 5);
-    static Driver driverTwo = new Driver();
-    static Driver driverThree = new Driver();
+    static Driver driverOne = new Driver("Berlin","Schlossstrasse", 5);
+    static Driver driverTwo = new Driver("Schweinfurt","Danzigstrasse", 5 );
+    static Driver driverThree = new Driver("Bonn", "Hauptstrasse", 20);
+
+    JPanel pnl_DriverOne;
+    JPanel pnl_main;
+    JPanel pnl_DriverTwo;
+    JPanel pnl_DriverThree;
+    JLabel lbl_DriverOne;
+    JLabel lbl_DriverTwo;
+    JLabel lbl_DriverThree;
+    JFrame fr;
 
 
 
@@ -93,25 +102,31 @@ public class Controlhub extends TimerTask {
         return trafficTime;
     }
 
+    public void initUI() {
+        // Swing UI
+
+        JPanel pnl_DriverOne = new JPanel();
+        JPanel pnl_main = new JPanel(new FlowLayout());
+        JPanel pnl_DriverTwo = new JPanel();
+        JPanel pnl_DriverThree = new JPanel();
+        pnl_main.add(pnl_DriverOne);
+        pnl_main.add(pnl_DriverTwo);
+        pnl_main.add(pnl_DriverThree);
+        pnl_DriverOne.add(lbl_DriverOne);
+        pnl_DriverTwo.add(lbl_DriverTwo);
+        pnl_DriverThree.add(lbl_DriverThree);
+
+        fr = new JFrame();
+        fr.setContentPane(pnl_main);  // Use our pane as the default pane
+        fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit program when frame is closed
+        fr.setLocation(300, 300);
+        fr.pack();
+        fr.setVisible(true);
+
+
+    }
 
     public static void main(String[] args) {
-        // Let's make a button first
-        JButton btn = new JButton("Click Me!");
-
-        // Let's make the panel with a flow layout.
-        // Flow layout allows the components to be
-        // their preferred size.
-        JPanel pane = new JPanel(new FlowLayout());
-        pane.add(btn);  // Add the button to the pane
-
-        // Now for the frame
-        JFrame fr = new JFrame();
-        fr.setContentPane(pane);  // Use our pane as the default pane
-        fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit program when frame is closed
-        fr.setLocation(200, 200); // located at (200, 200)
-        fr.pack();                // Frame is ready. Pack it up for display.
-        fr.setVisible(true);      // Make it visible
-
 
         Controlhub hub = new Controlhub();
         ControlhubServerAPI server = hub.getServer();
@@ -141,6 +156,9 @@ public class Controlhub extends TimerTask {
     @Override
     public void run() {
         PhilipsHueControl hueAPI = new PhilipsHueControl();
-        hueAPI.getColor(1);
+        lbl_DriverOne.setText("Driver 1 \n Aktueller Standort: " + driverOne.getStartCity() + "\n" + driverOne.getStartAddress() + " " + driverOne.getStartAddressNum() + "\r Aktueller Status" + driverOne.getDriverStatus().toString());
+        lbl_DriverTwo.setText("Driver 2 \n Aktueller Standort: " + driverTwo.getStartCity() + "\n" + driverTwo.getStartAddress() + " " + driverTwo.getStartAddressNum() + "\r Aktueller Status" + driverTwo.getDriverStatus().toString());
+        lbl_DriverThree.setText("Driver 3 \n Aktueller Standort: " + driverThree.getStartCity() + "\n" + driverThree.getStartAddress() + " " + driverThree.getStartAddressNum() + "\r Aktueller Status" + driverThree.getDriverStatus().toString());
+
     }
 }

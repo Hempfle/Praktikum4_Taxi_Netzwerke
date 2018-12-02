@@ -15,8 +15,9 @@ public class Driver {
         this.driverStatus = DriverStatus.INACTIVE;
     }
 
-    public Driver(String startAddress, int startAddressNum) {
+    public Driver(String startCity, String startAddress, int startAddressNum) {
         this.driverStatus = DriverStatus.WAITING;
+        this.startCity = startCity;
         this.startAddress = startAddress;
         this.startAddressNum = startAddressNum;
     }
