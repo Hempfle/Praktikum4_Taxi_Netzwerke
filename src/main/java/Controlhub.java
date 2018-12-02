@@ -137,30 +137,38 @@ public class Controlhub extends TimerTask {
         hub.initUI();
         
 
-
-
-
-
         Socket taxiClient = hub.server.openConnection();
+        BufferedReader taxiReader;
+        BufferedWriter taxiWriter;
 
-        try {
-            BufferedReader taxiReader = new BufferedReader(new InputStreamReader(taxiClient.getInputStream()));
-            BufferedWriter taxiWriter = new BufferedWriter(new OutputStreamWriter(taxiClient.getOutputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         //run run() all 5 sec
         Timer timer = new Timer();
         timer.schedule(new Controlhub(), 0, 5000);
 
-        //testcode
-        String response = "";
-        HttpsURLConnection conn;
-        BufferedReader fromConnection;
-        String routeURL = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=IcoZews0wmkTvlM45NiO&app_code=InPlGS-2hW44OdmkanRp8w&waypoint0=geo!52.5,13.4&waypoint1=geo!52.5,13.45&mode=fastest;car;traffic:disabled";
-        double lat = getGeoCode("Munich", "Planeggerstrasse", 20)[0];
-        double lon = getGeoCode("Munich", "Planeggerstrasse", 20)[1];
+
+        try {
+            taxiReader = new BufferedReader(new InputStreamReader(taxiClient.getInputStream()));
+            taxiWriter = new BufferedWriter(new OutputStreamWriter(taxiClient.getOutputStream()));
+
+            while (!taxiClient.isClosed()) {
+                int valid = 0;
+                String jason = "";
+                boolean isBody = false;
+                for (String line = taxiReader.readLine(); line != null; line =  taxiReader.readLine()) {
+                        isBody = line.equals("\r\n");
+
+                        if (isBody) {
+                            jason += line;
+                        }
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
