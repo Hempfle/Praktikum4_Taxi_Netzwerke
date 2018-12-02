@@ -22,8 +22,9 @@ public class Driver {
         this.startAddressNum = startAddressNum;
     }
 
-    public void createNewRide(String targetAddress, int targetAddressNum) {
+    public void createNewRide(String startCity, String startAddress, int startAddressNum, String targetCity, String targetAddress, int targetAddressNum) {
         this.driverStatus = DriverStatus.ONTIME;
+        this.targetCity = targetCity;
         this.targetAddress = targetAddress;
         this.targetAddressNum = targetAddressNum;
         this.estArrival = Calendar.getInstance();

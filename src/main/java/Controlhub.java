@@ -103,8 +103,8 @@ public class Controlhub extends TimerTask {
     }
 
     public void initUI() {
-        // Swing UI
 
+        // Swing UI
         JPanel pnl_DriverOne = new JPanel();
         JPanel pnl_main = new JPanel(new FlowLayout());
         JPanel pnl_DriverTwo = new JPanel();
@@ -144,7 +144,6 @@ public class Controlhub extends TimerTask {
 
 
 
-        driverOne.createNewRide("Planeggerstrasse", 20);
         String response = "";
         HttpsURLConnection conn;
         BufferedReader fromConnection;
