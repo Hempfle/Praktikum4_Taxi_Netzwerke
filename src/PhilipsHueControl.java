@@ -19,13 +19,18 @@ public class PhilipsHueControl {
         try {
             String url = "http://" + LAMP_IP + "/api/" + AUTH_USER + "/lights/";
             this.conToLamps = (HttpURLConnection) new URL(url).openConnection();
+            PHAccessPoint lastAccessPoint = new PHAccessPoint();
+            lastAccessPoint.setIpAddress("192.168.2.1")
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void getSetColor(int lampNr, DriverStatus status) {
+    public void setColor(int lampNr, DriverStatus status) {
 
+    }
+
+    public int getColor(int lampNr) {
 
     }
 
