@@ -20,9 +20,9 @@ public class Controlhub extends TimerTask {
     private static final int PORT = 8005;
     private ControlhubServerAPI server;
 
-    static Driver driverOne = new Driver("Berlin","Schlossstrasse", 5);
-    static Driver driverTwo = new Driver("Schweinfurt","Danzigstrasse", 5 );
-    static Driver driverThree = new Driver("Bonn", "Hauptstrasse", 20);
+    static Driver driverOne = new Driver("Berlin","Schlossstrasse", 5, 1);
+    static Driver driverTwo = new Driver("Schweinfurt","Danzigstrasse", 5 ,2);
+    static Driver driverThree = new Driver("Bonn", "Hauptstrasse", 20, 3);
 
     //ui components
     JPanel pnl_DriverOne;

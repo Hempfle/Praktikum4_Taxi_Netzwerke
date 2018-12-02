@@ -10,17 +10,21 @@ public class Driver {
     private String targetCity;
     private Calendar estArrival;
 
+
+    private int driverNumber;
+
     // creates inactive Driver
     public Driver() {
         this.driverStatus = DriverStatus.INACTIVE;
     }
 
     //creates active Driver
-    public Driver(String startCity, String startAddress, int startAddressNum) {
+    public Driver(String startCity, String startAddress, int startAddressNum, int driverNumber) {
         this.driverStatus = DriverStatus.WAITING;
         this.startCity = startCity;
         this.startAddress = startAddress;
         this.startAddressNum = startAddressNum;
+        this.driverNumber = driverNumber;
     }
 
     //creates new or changed ride
@@ -114,6 +118,14 @@ public class Driver {
 
     public void setStartCity(String startCity) {
         this.startCity = startCity;
+    }
+
+    public int getDriverNumber() {
+        return driverNumber;
+    }
+
+    public void setDriverNumber(int driverNumber) {
+        this.driverNumber = driverNumber;
     }
 }
 

@@ -42,7 +42,7 @@ public class ControlhubServerAPI {
         String targetStreet = request.getString("endAddress");
         int targetNum = request.getInt("endNumber");
         String status = request.getString("status");
-        Driver newDriver = new Driver(startCity, startStreet, startNum);
+        Driver newDriver = new Driver(startCity, startStreet, startNum, taxiNum);
         newDriver.createNewRide(startCity, startStreet, startNum, targetCity, targetStreet, targetNum);
         if (status.equals("active")) {
             newDriver.setDriverStatus(DriverStatus.ONTIME);
