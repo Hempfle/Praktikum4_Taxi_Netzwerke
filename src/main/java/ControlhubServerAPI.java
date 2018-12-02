@@ -11,8 +11,8 @@ public class ControlhubServerAPI {
     private int port = 8005;
 
     public ControlhubServerAPI() {
-        try (ServerSocket serverSocket = new ServerSocket(port)) {
-            this.serverSocket = serverSocket;
+        try {
+            this.serverSocket = new ServerSocket(port);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -23,16 +23,6 @@ public class ControlhubServerAPI {
         return this.serverSocket;
     }
 
-    public Socket openConnection() {
-        try (Socket socket = this.serverSocket.accept()) {
-            return socket;
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     public Driver getTheResponse(JsonObject request) {
         int taxiNum = request.getInt("taxi");

@@ -21,6 +21,8 @@ public class HardCodedDriver {
     private String endCity = "Bonn";
     private String endAddress = "Hauptstrasse";
     private int endNumber = 20;
+
+    boolean wantToClose = false;
     //---------------------------------------------
 
     public HardCodedDriver() {
@@ -63,6 +65,9 @@ public class HardCodedDriver {
             postToServer.write("\r\n");
             postToServer.write(json);
             postToServer.close();
+            if (wantToClose) {
+                client.close();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

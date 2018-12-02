@@ -133,11 +133,10 @@ public class Controlhub extends TimerTask {
     public static void main(String[] args) {
         Controlhub hub = new Controlhub();
         hub.server = new ControlhubServerAPI();
-        hub.server.openConnection();
         hub.initUI();
         
 
-        Socket taxiClient = hub.server.openConnection();
+
         BufferedReader taxiReader;
         BufferedWriter taxiWriter;
 
@@ -149,6 +148,7 @@ public class Controlhub extends TimerTask {
 
 
         try {
+            Socket taxiClient = hub.server.getServerSocket().accept();
             taxiReader = new BufferedReader(new InputStreamReader(taxiClient.getInputStream()));
             taxiWriter = new BufferedWriter(new OutputStreamWriter(taxiClient.getOutputStream()));
 
