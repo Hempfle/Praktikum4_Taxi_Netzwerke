@@ -10,7 +10,6 @@ public class HardCodedDriver {
     InetAddress serverhost;
     int port = 8005;
 
-
     //to change----------------------------------
     int taxi = 1;
     String status = "active";
@@ -40,18 +39,18 @@ public class HardCodedDriver {
         if (status.equals("active")) {
             json = "{\n" +
                     "\"taxi\": " + taxi + "\n" +
-                    "\"status\": " + city + "\n" +
+                    "\"status\": " + status + "\n" +
                     "\"city\": " + city + "\n" +
-                    "\"address\": " + city + "\n" +
-                    "\"number\": " + city + "\n" +
-                    "\"endCity\": " + city + "\n" +
-                    "\"endAddress\": " + city + "\n" +
-                    "\"endNumber\": " + city + "\n" +
+                    "\"address\": " + address + "\n" +
+                    "\"number\": " + number + "\n" +
+                    "\"endCity\": " + endCity + "\n" +
+                    "\"endAddress\": " + endAddress + "\n" +
+                    "\"endNumber\": " + endNumber + "\n" +
                     "}";
         } else {
             json = "{\n" +
                     "\"taxi\": " + taxi + "\n" +
-                    "\"status\": " + city + "\n" +
+                    "\"status\": " + status + "\n" +
                     "}";
         }
 
@@ -61,6 +60,7 @@ public class HardCodedDriver {
 
             postToServer.write("POST " + ressource + " HTTP/1.0" + "\r\n");
             postToServer.write("Content-Length: " + json.length());
+            postToServer.close();
 
         } catch (IOException e) {
             e.printStackTrace();
