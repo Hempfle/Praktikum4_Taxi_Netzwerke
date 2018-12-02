@@ -105,10 +105,15 @@ public class Controlhub extends TimerTask {
     public void initUI() {
 
         // Swing UI
-        JPanel pnl_DriverOne = new JPanel();
-        JPanel pnl_main = new JPanel(new FlowLayout());
-        JPanel pnl_DriverTwo = new JPanel();
-        JPanel pnl_DriverThree = new JPanel();
+        pnl_DriverOne = new JPanel();
+        pnl_main = new JPanel(new FlowLayout());
+        pnl_DriverTwo = new JPanel();
+        pnl_DriverThree = new JPanel();
+        lbl_DriverOne = new JLabel("Driver 1 \n Aktueller Standort: " + driverOne.getStartCity() + "\n" + driverOne.getStartAddress() + " " + driverOne.getStartAddressNum() + "\r Aktueller Status" + driverOne.getDriverStatus().toString());
+        lbl_DriverTwo = new JLabel("Driver 2 \n Aktueller Standort: " + driverTwo.getStartCity() + "\n" + driverTwo.getStartAddress() + " " + driverTwo.getStartAddressNum() + "\r Aktueller Status" + driverTwo.getDriverStatus().toString());
+        lbl_DriverThree = new JLabel("Driver 3 \n Aktueller Standort: " + driverThree.getStartCity() + "\n" + driverThree.getStartAddress() + " " + driverThree.getStartAddressNum() + "\r Aktueller Status" + driverThree.getDriverStatus().toString());
+
+
         pnl_main.add(pnl_DriverOne);
         pnl_main.add(pnl_DriverTwo);
         pnl_main.add(pnl_DriverThree);
