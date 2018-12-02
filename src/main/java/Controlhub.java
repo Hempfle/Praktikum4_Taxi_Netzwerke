@@ -131,12 +131,15 @@ public class Controlhub extends TimerTask {
     }
 
     public static void main(String[] args) {
-        ControlhubServerAPI server = new ControlhubServerAPI();
-        server.openConnection();
         Controlhub hub = new Controlhub();
-        //Controlhub hub = new Controlhub();
-        //ControlhubServerAPI server = hub.getServer();
+        hub.server = new ControlhubServerAPI();
+        hub.server.openConnection();
         hub.initUI();
+        
+
+
+
+
 
         Socket taxiClient = server.openConnection();
 
