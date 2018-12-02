@@ -6,12 +6,13 @@ import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.net.ssl.HttpsURLConnection;
-import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import javax.swing.*;
 import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Timer;
 import java.util.TimerTask;
 
 public class Controlhub extends TimerTask {
@@ -23,6 +24,7 @@ public class Controlhub extends TimerTask {
     static Driver driverTwo = new Driver("Schweinfurt","Danzigstrasse", 5 );
     static Driver driverThree = new Driver("Bonn", "Hauptstrasse", 20);
 
+    //ui components
     JPanel pnl_DriverOne;
     JPanel pnl_main;
     JPanel pnl_DriverTwo;
@@ -42,6 +44,7 @@ public class Controlhub extends TimerTask {
         return this.server;
     }
 
+    //get Json from Website
     public static JsonObject getJsonObjectFromUrl( String url ) {
         try {
             HttpURLConnection conn = (HttpURLConnection) (new URL(url)).openConnection();
@@ -60,6 +63,7 @@ public class Controlhub extends TimerTask {
             throw new RuntimeException("Exception occured while accessing url: " + url, ex);
         }
     }
+    // get geocode from here api
     public static double[] getGeoCode(String city, String street, int houseNum) {
         String geocodeURL = "https://geocoder.api.here.com/6.2/geocode.json?app_id=IcoZews0wmkTvlM45NiO&app_code=InPlGS-2hW44OdmkanRp8w&searchtext="+city+"+"+street+"+"+houseNum;
         HttpsURLConnection conn;
@@ -76,7 +80,7 @@ public class Controlhub extends TimerTask {
         return geoCode;
 
     }
-    //get traffic time in sec
+    //get traffic time in sec depending on current traffic situation
     public static int getRealTime(double latStart, double lonStart, double latGoal, double lonGoal) {
         String geocodeURL = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=IcoZews0wmkTvlM45NiO&app_code=InPlGS-2hW44OdmkanRp8w&waypoint0=geo!" + latStart + "," + lonStart + "&waypoint1=geo!" + latGoal +"," + lonGoal + "&mode=fastest;car;traffic:enabled";
         HttpsURLConnection conn;
@@ -89,7 +93,7 @@ public class Controlhub extends TimerTask {
         return trafficTime;
     }
 
-    //get traffic time in sec
+    //get estimated time in sec if nothing goes wrong
     public static int getEstimatedTime(double latStart, double lonStart, double latGoal, double lonGoal) {
         String geocodeURL = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=IcoZews0wmkTvlM45NiO&app_code=InPlGS-2hW44OdmkanRp8w&waypoint0=geo!52.5,13.4&waypoint0=geo!" + latStart + "," + lonStart + "&waypoint1=geo!" + latGoal +"," + lonGoal + "&mode=fastest;car;traffic:enabled";
         HttpsURLConnection conn;
@@ -101,7 +105,7 @@ public class Controlhub extends TimerTask {
         System.out.println("Erwartete Traffic Time bestimmt");
         return trafficTime;
     }
-
+    //initialize UI with swing
     public void initUI() {
 
         // Swing UI
@@ -146,9 +150,11 @@ public class Controlhub extends TimerTask {
             e.printStackTrace();
         }
 
+        //run run() all 5 sec
+        Timer timer = new Timer();
+        timer.schedule(new Controlhub(), 0, 5000);
 
-
-
+        //testcode
         String response = "";
         HttpsURLConnection conn;
         BufferedReader fromConnection;

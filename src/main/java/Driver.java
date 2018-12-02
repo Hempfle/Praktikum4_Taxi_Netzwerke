@@ -10,11 +10,12 @@ public class Driver {
     private String targetCity;
     private Calendar estArrival;
 
-
+    // creates inactive Driver
     public Driver() {
         this.driverStatus = DriverStatus.INACTIVE;
     }
 
+    //creates active Driver
     public Driver(String startCity, String startAddress, int startAddressNum) {
         this.driverStatus = DriverStatus.WAITING;
         this.startCity = startCity;
@@ -22,6 +23,7 @@ public class Driver {
         this.startAddressNum = startAddressNum;
     }
 
+    //creates new or changed ride
     public void createNewRide(String startCity, String startAddress, int startAddressNum, String targetCity, String targetAddress, int targetAddressNum) {
         int estimatedDuration = Controlhub.getEstimatedTime(Controlhub.getGeoCode(this.startCity, this.startAddress, this.startAddressNum)[0], Controlhub.getGeoCode(this.startCity, this.startAddress, this.startAddressNum)[1], Controlhub.getGeoCode(this.targetCity, this.targetAddress, this.targetAddressNum)[0], Controlhub.getGeoCode(this.targetCity, this.targetAddress, this.targetAddressNum)[1]);
         int realDuration = Controlhub.getRealTime(Controlhub.getGeoCode(this.startCity, this.startAddress, this.startAddressNum)[0], Controlhub.getGeoCode(this.startCity, this.startAddress, this.startAddressNum)[1], Controlhub.getGeoCode(this.targetCity, this.targetAddress, this.targetAddressNum)[0], Controlhub.getGeoCode(this.targetCity, this.targetAddress, this.targetAddressNum)[1]);
