@@ -8,8 +8,9 @@ import java.net.Socket;
 public class ControlhubServerAPI {
 
     private ServerSocket serverSocket;
+    private int port = 8005;
 
-    public ControlhubServerAPI(int port) {
+    public ControlhubServerAPI() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             this.serverSocket = serverSocket;
         } catch (IOException e) {

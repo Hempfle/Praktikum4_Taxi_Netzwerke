@@ -6,21 +6,21 @@ import java.net.Socket;
 
 public class HardCodedDriver {
 
-    Socket client;
-    InetAddress serverhost;
-    int port = 8005;
+    private Socket client;
+    private InetAddress serverhost;
+    private int port = 8005;
 
     //to change----------------------------------
-    int taxi = 1;
-    String status = "active";
+    private int taxi = 1;
+    private String status = "active";
 
-    String city = "Berlin";
-    String address = "Schlossstrasse";
-    int number = 5;
+    private String city = "Berlin";
+    private String address = "Schlossstrasse";
+    private int number = 5;
 
-    String endCity = "Bonn";
-    String endAddress = "Hauptstrasse";
-    int endNumber = 20;
+    private String endCity = "Bonn";
+    private String endAddress = "Hauptstrasse";
+    private int endNumber = 20;
     //---------------------------------------------
 
     public HardCodedDriver() {
@@ -59,7 +59,9 @@ public class HardCodedDriver {
             BufferedWriter postToServer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
 
             postToServer.write("POST " + ressource + " HTTP/1.0" + "\r\n");
-            postToServer.write("Content-Length: " + json.length());
+            postToServer.write("Content-Length: " + json.length() + "\r\n");
+            postToServer.write("\r\n");
+            postToServer.write(json);
             postToServer.close();
 
         } catch (IOException e) {

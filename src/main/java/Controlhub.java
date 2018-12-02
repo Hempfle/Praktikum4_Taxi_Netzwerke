@@ -35,11 +35,6 @@ public class Controlhub extends TimerTask {
     JFrame fr;
 
 
-
-    public Controlhub() {
-        this.server = new ControlhubServerAPI(PORT);
-    }
-
     public ControlhubServerAPI getServer() {
         return this.server;
     }
@@ -136,9 +131,11 @@ public class Controlhub extends TimerTask {
     }
 
     public static void main(String[] args) {
-
+        ControlhubServerAPI server = new ControlhubServerAPI();
+        server.openConnection();
         Controlhub hub = new Controlhub();
-        ControlhubServerAPI server = hub.getServer();
+        //Controlhub hub = new Controlhub();
+        //ControlhubServerAPI server = hub.getServer();
         hub.initUI();
 
         Socket taxiClient = server.openConnection();
