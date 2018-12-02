@@ -147,7 +147,6 @@ public class Controlhub extends TimerTask {
         Timer timer = new Timer();
         timer.schedule(new Controlhub(), 0, 5000);
 
-
         try {
             Socket taxiClient = hub.server.getServerSocket().accept();
             taxiReader = new BufferedReader(new InputStreamReader(taxiClient.getInputStream()));
@@ -157,14 +156,15 @@ public class Controlhub extends TimerTask {
                 int valid = 0;
                 String jason = "";
                 boolean isBody = false;
+                JsonObject response = getJsonObjectFromUrl("http://localhost:8005");
                 for (String line = taxiReader.readLine(); line != null; line = taxiReader.readLine()) {
                     isBody = line.equals("\r\n");
-
                     if (isBody) {
                         jason += line;
                     }
                 }
-                JsonObject response = getJsonObjectFromUrl("http://localhost:8005");
+
+
                 if (hub.server.getTheResponse(response).getDriverNumber() == driverOne.getDriverNumber()) {
                     driverOne = hub.server.getTheResponse(response);
                 } else if (hub.server.getTheResponse(response).getDriverNumber() == driverTwo.getDriverNumber()) {

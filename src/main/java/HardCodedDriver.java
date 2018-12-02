@@ -34,39 +34,40 @@ public class HardCodedDriver {
         }
     }
 
-    public void main(String[] args) {
-
+    public static void main(String[] args) {
+        HardCodedDriver driver = new HardCodedDriver();
         String ressource = "/update/taxi";
         String json;
-        if (status.equals("active")) {
+        if (driver.status.equals("active")) {
             json = "{\n" +
-                    "\"taxi\": " + taxi + "\n" +
-                    "\"status\": " + status + "\n" +
-                    "\"city\": " + city + "\n" +
-                    "\"address\": " + address + "\n" +
-                    "\"number\": " + number + "\n" +
-                    "\"endCity\": " + endCity + "\n" +
-                    "\"endAddress\": " + endAddress + "\n" +
-                    "\"endNumber\": " + endNumber + "\n" +
+                    "\"taxi\": " + driver.taxi + "\n" +
+                    "\"status\": " + driver.status + "\n" +
+                    "\"city\": " + driver.city + "\n" +
+                    "\"address\": " + driver.address + "\n" +
+                    "\"number\": " + driver.number + "\n" +
+                    "\"endCity\": " + driver.endCity + "\n" +
+                    "\"endAddress\": " + driver.endAddress + "\n" +
+                    "\"endNumber\": " + driver.endNumber + "\n" +
                     "}";
         } else {
             json = "{\n" +
-                    "\"taxi\": " + taxi + "\n" +
-                    "\"status\": " + status + "\n" +
+                    "\"taxi\": " + driver.taxi + "\n" +
+                    "\"status\": " + driver.status + "\n" +
                     "}";
         }
 
 
         try {
-            BufferedWriter postToServer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+            BufferedWriter postToServer = new BufferedWriter(new OutputStreamWriter(driver.client.getOutputStream()));
 
             postToServer.write("POST " + ressource + " HTTP/1.0" + "\r\n");
+            postToServer.write("Content-Type: application/json\r\n");
             postToServer.write("Content-Length: " + json.length() + "\r\n");
             postToServer.write("\r\n");
             postToServer.write(json);
             postToServer.close();
-            if (wantToClose) {
-                client.close();
+            if (driver.wantToClose) {
+                driver.client.close();
             }
 
         } catch (IOException e) {
