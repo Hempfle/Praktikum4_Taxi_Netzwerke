@@ -22,7 +22,7 @@ public class PhilipsHueControl {
     //private static final String AUTH_USER = "2217334838210e7f244460f83b42026f";
     private static final String AUTH_USER = "newdeveloper";
     //private static final String LAMP_IP = "10.28.9.122";
-    private static final String LAMP_IP = "localhost";
+    private static final String LAMP_IP = "localhost:8000";
 
     HttpURLConnection conToLamps;
     BufferedReader fromCon;
@@ -76,13 +76,11 @@ public class PhilipsHueControl {
             lampEffects = "none";
         }
 
-        String url = "http://" + LAMP_IP + "/api/" + AUTH_USER + "/lights/" + lampNr + "/state";
-        url = "http://localhost/api/newdeveloper/lights/3/state";
+        String url = "http://localhost:8000/api/newdeveloper/lights/3/state";
         try {
             this.conToLamps = (HttpURLConnection) new URL(url).openConnection();
             conToLamps.setDoOutput(true);
-            conToLamps.setRequestMethod("POST");
-            conToLamps.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            conToLamps.setRequestMethod("PUT");
 
 
             String response = "";
@@ -91,7 +89,7 @@ public class PhilipsHueControl {
             BufferedReader fromClient;
 
             String json = "{ \"hue\":" + newColorValue + ", \"on\":" + lampOn + " }";
-            json = "{\n\t\"hue\": 25500,\n\t\"on\": true\n}";
+            json = "{\n\t\"on\": false\n}";
             System.out.println(json);
             osw.write(json);
 

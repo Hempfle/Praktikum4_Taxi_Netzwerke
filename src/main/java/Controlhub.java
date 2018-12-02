@@ -6,6 +6,8 @@ import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.net.ssl.HttpsURLConnection;
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.Socket;
@@ -93,6 +95,23 @@ public class Controlhub extends TimerTask {
 
 
     public static void main(String[] args) {
+        // Let's make a button first
+        JButton btn = new JButton("Click Me!");
+
+        // Let's make the panel with a flow layout.
+        // Flow layout allows the components to be
+        // their preferred size.
+        JPanel pane = new JPanel(new FlowLayout());
+        pane.add(btn);  // Add the button to the pane
+
+        // Now for the frame
+        JFrame fr = new JFrame();
+        fr.setContentPane(pane);  // Use our pane as the default pane
+        fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit program when frame is closed
+        fr.setLocation(200, 200); // located at (200, 200)
+        fr.pack();                // Frame is ready. Pack it up for display.
+        fr.setVisible(true);      // Make it visible
+
 
         Controlhub hub = new Controlhub();
         ControlhubServerAPI server = hub.getServer();
