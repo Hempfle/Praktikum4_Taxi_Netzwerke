@@ -130,7 +130,7 @@ public class Controlhub extends TimerTask {
 
         Controlhub hub = new Controlhub();
         ControlhubServerAPI server = hub.getServer();
-
+        hub.initUI();
 
         Socket taxiClient = server.openConnection();
 
@@ -159,6 +159,5 @@ public class Controlhub extends TimerTask {
         lbl_DriverOne.setText("Driver 1 \n Aktueller Standort: " + driverOne.getStartCity() + "\n" + driverOne.getStartAddress() + " " + driverOne.getStartAddressNum() + "\r Aktueller Status" + driverOne.getDriverStatus().toString());
         lbl_DriverTwo.setText("Driver 2 \n Aktueller Standort: " + driverTwo.getStartCity() + "\n" + driverTwo.getStartAddress() + " " + driverTwo.getStartAddressNum() + "\r Aktueller Status" + driverTwo.getDriverStatus().toString());
         lbl_DriverThree.setText("Driver 3 \n Aktueller Standort: " + driverThree.getStartCity() + "\n" + driverThree.getStartAddress() + " " + driverThree.getStartAddressNum() + "\r Aktueller Status" + driverThree.getDriverStatus().toString());
-
     }
 }
