@@ -12,8 +12,8 @@ public class HardCodedDriver {
 
      //status is active, pause, stop
     //to change----------------------------------
-    private int taxi = 1;
-    private String status = "active";
+     private int taxi = 1;
+    private String status = "pause";
 
     private String city = "Berlin";
     private String address = "Schlossstrasse";
@@ -23,7 +23,6 @@ public class HardCodedDriver {
     private String endAddress = "Hauptstrasse";
     private int endNumber = 20;
 
-    boolean wantToClose = false;
     //---------------------------------------------
 
 

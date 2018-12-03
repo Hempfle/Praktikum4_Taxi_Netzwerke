@@ -43,7 +43,7 @@ public class Driver {
         int realDuration = Controlhub.getRealTime(Controlhub.getGeoCode(this.startCity, this.startAddress, this.startAddressNum)[0], Controlhub.getGeoCode(this.startCity, this.startAddress, this.startAddressNum)[1], Controlhub.getGeoCode(this.targetCity, this.targetAddress, this.targetAddressNum)[0], Controlhub.getGeoCode(this.targetCity, this.targetAddress, this.targetAddressNum)[1]);
         this.driverStatus = DriverStatus.ONTIME;
         //falls Verspaetung groesser 5 min
-        if ((realDuration - estimatedDuration) < 300) {
+        if ((realDuration - estimatedDuration) > 300) {
             this.driverStatus = DriverStatus.LATE;
         }
         this.estArrival.add(Calendar.SECOND, estimatedDuration);

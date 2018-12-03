@@ -112,7 +112,10 @@ public class Controlhub extends TimerTask {
 
         try {
             Socket taxiClient = hub.server.getServerSocket().accept();
-            while (!taxiClient.isClosed()) {
+            while (true) {
+                if (taxiClient.isClosed()) {
+                    taxiClient = hub.server.getServerSocket().accept();
+                }
                 taxiReader = new BufferedReader(new InputStreamReader(taxiClient.getInputStream()));
                 taxiWriter = new BufferedWriter(new OutputStreamWriter(taxiClient.getOutputStream()));
 
@@ -198,6 +201,6 @@ public class Controlhub extends TimerTask {
         PhilipsHueControl hueAPI = new PhilipsHueControl();
         hueAPI.setColor(driverOne.getDriverNumber(), driverOne.getDriverStatus());
         hueAPI.setColor(driverTwo.getDriverNumber(), driverTwo.getDriverStatus());
-        hueAPI.setColor(driverThree.getDriverNumber(), driverTwo.getDriverStatus());
+        hueAPI.setColor(driverThree.getDriverNumber(), driverThree.getDriverStatus());
     }
 }
