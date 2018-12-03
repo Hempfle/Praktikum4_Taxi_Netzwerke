@@ -20,7 +20,7 @@ public class Driver {
 
     //creates active Driver
     public Driver(String startCity, String startAddress, int startAddressNum, int driverNumber) {
-        this.driverStatus = DriverStatus.WAITING;
+        this.driverStatus = DriverStatus.INACTIVE;
         this.startCity = startCity;
         this.startAddress = startAddress;
         this.startAddressNum = startAddressNum;
@@ -29,14 +29,8 @@ public class Driver {
 
     //creates new or changed ride
     public void createNewRide(String startCity, String startAddress, int startAddressNum, String targetCity, String targetAddress, int targetAddressNum) {
-        int estimatedDuration = Controlhub.getEstimatedTime(Controlhub.getGeoCode(this.startCity, this.startAddress, this.startAddressNum)[0], Controlhub.getGeoCode(this.startCity, this.startAddress, this.startAddressNum)[1], Controlhub.getGeoCode(this.targetCity, this.targetAddress, this.targetAddressNum)[0], Controlhub.getGeoCode(this.targetCity, this.targetAddress, this.targetAddressNum)[1]);
-        int realDuration = Controlhub.getRealTime(Controlhub.getGeoCode(this.startCity, this.startAddress, this.startAddressNum)[0], Controlhub.getGeoCode(this.startCity, this.startAddress, this.startAddressNum)[1], Controlhub.getGeoCode(this.targetCity, this.targetAddress, this.targetAddressNum)[0], Controlhub.getGeoCode(this.targetCity, this.targetAddress, this.targetAddressNum)[1]);
 
-        this.driverStatus = DriverStatus.ONTIME;
-        //falls Verspaetung groesser 5 min
-        if ((realDuration - estimatedDuration) < 300) {
-            this.driverStatus = DriverStatus.LATE;
-        }
+
         this.startCity = startCity;
         this.startAddress = startAddress;
         this.startAddressNum = startAddressNum;
@@ -44,6 +38,14 @@ public class Driver {
         this.targetAddress = targetAddress;
         this.targetAddressNum = targetAddressNum;
         this.estArrival = Calendar.getInstance();
+
+        int estimatedDuration = Controlhub.getEstimatedTime(Controlhub.getGeoCode(this.startCity, this.startAddress, this.startAddressNum)[0], Controlhub.getGeoCode(this.startCity, this.startAddress, this.startAddressNum)[1], Controlhub.getGeoCode(this.targetCity, this.targetAddress, this.targetAddressNum)[0], Controlhub.getGeoCode(this.targetCity, this.targetAddress, this.targetAddressNum)[1]);
+        int realDuration = Controlhub.getRealTime(Controlhub.getGeoCode(this.startCity, this.startAddress, this.startAddressNum)[0], Controlhub.getGeoCode(this.startCity, this.startAddress, this.startAddressNum)[1], Controlhub.getGeoCode(this.targetCity, this.targetAddress, this.targetAddressNum)[0], Controlhub.getGeoCode(this.targetCity, this.targetAddress, this.targetAddressNum)[1]);
+        this.driverStatus = DriverStatus.ONTIME;
+        //falls Verspaetung groesser 5 min
+        if ((realDuration - estimatedDuration) < 300) {
+            this.driverStatus = DriverStatus.LATE;
+        }
         this.estArrival.add(Calendar.SECOND, estimatedDuration);
     }
 

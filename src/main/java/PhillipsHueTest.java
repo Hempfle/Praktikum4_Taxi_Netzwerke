@@ -5,6 +5,6 @@ public class PhillipsHueTest {
         System.out.println(philipsHueControl.getColor(1));
         System.out.println(philipsHueControl.getColor(2));
         System.out.println(philipsHueControl.getColor(3));
-        philipsHueControl.setColor(1, DriverStatus.WAITING);
+        philipsHueControl.setColor(2, DriverStatus.LATE);
     }
 }

@@ -1,4 +1,4 @@
-//Melanie Famao
+//Melanie Famao, Christopher Weber
 
 import javax.json.JsonObject;
 import java.io.IOException;
@@ -13,6 +13,7 @@ public class ControlhubServerAPI {
     public ControlhubServerAPI() {
         try {
             this.serverSocket = new ServerSocket(port);
+            System.out.println("Server startet");
         } catch (IOException e) {
             e.printStackTrace();
         }

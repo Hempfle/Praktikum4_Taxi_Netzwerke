@@ -1,15 +1,16 @@
+//Melanie Famao, christopher Weber
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.net.InetAddress;
-import java.net.Socket;
+import java.net.*;
+import java.time.Instant;
 
 public class HardCodedDriver {
 
-    private Socket client;
-    private InetAddress serverhost;
-    private int port = 8005;
+     int port = 8005;
 
+     //status is active, pause, stop
     //to change----------------------------------
     private int taxi = 1;
     private String status = "active";
@@ -25,14 +26,6 @@ public class HardCodedDriver {
     boolean wantToClose = false;
     //---------------------------------------------
 
-    public HardCodedDriver() {
-        try {
-            serverhost = InetAddress.getLocalHost();
-            client = new Socket(serverhost, port);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void main(String[] args) {
         HardCodedDriver driver = new HardCodedDriver();
@@ -56,19 +49,23 @@ public class HardCodedDriver {
                     "}";
         }
 
-
         try {
-            BufferedWriter postToServer = new BufferedWriter(new OutputStreamWriter(driver.client.getOutputStream()));
+            Socket client = new Socket(InetAddress.getLocalHost(), 8005);
 
-            postToServer.write("POST " + ressource + " HTTP/1.0" + "\r\n");
+
+            String jsonL = "" + json.length();
+            BufferedWriter postToServer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+
+
             postToServer.write("Content-Type: application/json\r\n");
             postToServer.write("Content-Length: " + json.length() + "\r\n");
             postToServer.write("\r\n");
             postToServer.write(json);
+            postToServer.flush();
             postToServer.close();
-            if (driver.wantToClose) {
-                driver.client.close();
-            }
+            client.close();
+
+
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,4 +1,4 @@
-//Melanie Famao
+//Melanie Famao, Christopher Weber
 
 
 import javax.json.Json;
@@ -12,32 +12,29 @@ import javax.swing.*;
 import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
+import java.util.*;
+import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class Controlhub extends TimerTask {
 
-    private static final int PORT = 8005;
     private ControlhubServerAPI server;
 
     static Driver driverOne = new Driver("Berlin","Schlossstrasse", 5, 1);
     static Driver driverTwo = new Driver("Schweinfurt","Danzigstrasse", 5 ,2);
     static Driver driverThree = new Driver("Bonn", "Hauptstrasse", 20, 3);
 
-    //ui components
-    JPanel pnl_DriverOne;
-    JPanel pnl_main;
-    JPanel pnl_DriverTwo;
-    JPanel pnl_DriverThree;
-    JLabel lbl_DriverOne;
-    JLabel lbl_DriverTwo;
-    JLabel lbl_DriverThree;
-    JFrame fr;
+
+    public String status;
+    public String city;
+    public String address;
+    public String number;
+    public String endCity;
+    public String endAddress;
+    public String endNumber;
 
 
-    public ControlhubServerAPI getServer() {
-        return this.server;
-    }
+
 
     //get Json from Website
     public static JsonObject getJsonObjectFromUrl( String url ) {
@@ -100,78 +97,66 @@ public class Controlhub extends TimerTask {
         System.out.println("Erwartete Traffic Time bestimmt");
         return trafficTime;
     }
-    /*
-    //initialize UI with swing
-    public void initUI() {
-
-        // Swing UI
-        pnl_DriverOne = new JPanel();
-        pnl_main = new JPanel(new FlowLayout());
-        pnl_DriverTwo = new JPanel();
-        pnl_DriverThree = new JPanel();
-        lbl_DriverOne = new JLabel("Driver 1 \n Aktueller Standort: " + driverOne.getStartCity() + "\n" + driverOne.getStartAddress() + " " + driverOne.getStartAddressNum() + "\r Aktueller Status" + driverOne.getDriverStatus().toString());
-        lbl_DriverTwo = new JLabel("Driver 2 \n Aktueller Standort: " + driverTwo.getStartCity() + "\n" + driverTwo.getStartAddress() + " " + driverTwo.getStartAddressNum() + "\r Aktueller Status" + driverTwo.getDriverStatus().toString());
-        lbl_DriverThree = new JLabel("Driver 3 \n Aktueller Standort: " + driverThree.getStartCity() + "\n" + driverThree.getStartAddress() + " " + driverThree.getStartAddressNum() + "\r Aktueller Status" + driverThree.getDriverStatus().toString());
-
-
-        pnl_main.add(pnl_DriverOne);
-        pnl_main.add(pnl_DriverTwo);
-        pnl_main.add(pnl_DriverThree);
-        pnl_DriverOne.add(lbl_DriverOne);
-        pnl_DriverTwo.add(lbl_DriverTwo);
-        pnl_DriverThree.add(lbl_DriverThree);
-
-        fr = new JFrame();
-        fr.setContentPane(pnl_main);  // Use our pane as the default pane
-        fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit program when frame is closed
-        fr.setLocation(300, 300);
-        fr.pack();
-        fr.setVisible(true);
-
-
-    } */
 
     public static void main(String[] args) {
         Controlhub hub = new Controlhub();
         hub.server = new ControlhubServerAPI();
-        //hub.initUI();
-        
-
 
         BufferedReader taxiReader;
         BufferedWriter taxiWriter;
-
-
 
         //run run() all 5 sec
         Timer timer = new Timer();
         timer.schedule(new Controlhub(), 0, 5000);
 
+
         try {
             Socket taxiClient = hub.server.getServerSocket().accept();
-            taxiReader = new BufferedReader(new InputStreamReader(taxiClient.getInputStream()));
-            taxiWriter = new BufferedWriter(new OutputStreamWriter(taxiClient.getOutputStream()));
-
             while (!taxiClient.isClosed()) {
-                int valid = 0;
-                String jason = "";
-                boolean isBody = false;
-                JsonObject response = getJsonObjectFromUrl("http://localhost:8005");
+                taxiReader = new BufferedReader(new InputStreamReader(taxiClient.getInputStream()));
+                taxiWriter = new BufferedWriter(new OutputStreamWriter(taxiClient.getOutputStream()));
+
+                System.out.println("got Connection");
+
+                String jsonBody = "";
+                int taxiNr = 0;
+
                 for (String line = taxiReader.readLine(); line != null; line = taxiReader.readLine()) {
-                    isBody = line.equals("\r\n");
-                    if (isBody) {
-                        jason += line;
+                    if (line.contains("\"taxi\"" )) {
+                        taxiNr = Integer.parseInt(line.substring(8));
                     }
+                        String test = hub.readJsonFromDriver(line);
+                        jsonBody += line;
+                        System.out.println(test);
                 }
 
 
-                if (hub.server.getTheResponse(response).getDriverNumber() == driverOne.getDriverNumber()) {
-                    driverOne = hub.server.getTheResponse(response);
-                } else if (hub.server.getTheResponse(response).getDriverNumber() == driverTwo.getDriverNumber()) {
-                    driverTwo = hub.server.getTheResponse(response);
-                } else if (hub.server.getTheResponse(response).getDriverNumber() == driverThree.getDriverNumber()) {
-                    driverThree = hub.server.getTheResponse(response);
+                Driver currentDriver = new Driver(hub.city, hub.address, Integer.parseInt(hub.number), taxiNr);
+                if (hub.status.equals("active")) {
+                    currentDriver.createNewRide(hub.city, hub.address, Integer.parseInt(hub.number), hub.endCity, hub.endAddress, Integer.parseInt(hub.endNumber));
+                } else if ( hub.status.equals("pause")) {
+                    currentDriver.setDriverStatus(DriverStatus.WAITING);
+                } else {
+                    currentDriver.setDriverStatus(DriverStatus.INACTIVE);
                 }
+
+                if (taxiNr == 1) {
+                    driverOne = currentDriver;
+                } else if (taxiNr == 2) {
+                    driverTwo = currentDriver;
+                } else if (taxiNr == 3) {
+                    driverThree = currentDriver;
+                } else {
+                    throw new UnsupportedOperationException("Taxinr is 0");
+                }
+
+
+                taxiWriter.write("HTTP/1.0 200 OK\r\n");
+                taxiWriter.write("Content-Length: 0\r\n");
+                taxiWriter.write("\r\n");
+                taxiWriter.flush();
+                taxiWriter.close();
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -179,8 +164,40 @@ public class Controlhub extends TimerTask {
 
     }
 
+    public String readJsonFromDriver(String json) {
+        if (json.contains("\"taxi\"" )) {
+            return json.substring(8);
+        } else if (json.contains("\"city\"")) {
+            city = json.substring(8);
+            return city;
+        } else if (json.contains("\"status\"")) {
+            status = json.substring(10);
+            return status;
+        } else if (json.contains("\"number\"")) {
+            number = json.substring(10);
+            return number;
+        } else if (json.contains("\"endCity\"")) {
+            endCity = json.substring(11);
+            return endCity;
+        } else if (json.contains("\"address\"") ) {
+            address = json.substring(11);
+            return address;
+        } else if (json.contains("\"endNumber\"")) {
+            endNumber = json.substring(13);
+            return endNumber;
+        } else if (json.contains("\"endAddress\"")) {
+            endAddress = json.substring(14);
+            return endAddress;
+        } else {
+            return "";
+        }
+    }
+
     @Override
     public void run() {
         PhilipsHueControl hueAPI = new PhilipsHueControl();
+        hueAPI.setColor(driverOne.getDriverNumber(), driverOne.getDriverStatus());
+        hueAPI.setColor(driverTwo.getDriverNumber(), driverTwo.getDriverStatus());
+        hueAPI.setColor(driverThree.getDriverNumber(), driverTwo.getDriverStatus());
     }
 }
