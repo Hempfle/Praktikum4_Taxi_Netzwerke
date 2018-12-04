@@ -24,7 +24,7 @@ public class ControlhubServerAPI {
         return this.serverSocket;
     }
 
-
+    /* NOT USED ANYMORE
     public Driver getTheResponse(JsonObject request) {
         int taxiNum = request.getInt("taxi");
         String startCity = request.getString("city");
@@ -46,6 +46,6 @@ public class ControlhubServerAPI {
             newDriver.setDriverStatus(DriverStatus.WAITING);
         }
         return newDriver;
-    }
+    } */
 
 }

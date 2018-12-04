@@ -45,6 +45,9 @@ public class HardCodedDriver {
             json = "{\n" +
                     "\"taxi\": " + driver.taxi + "\n" +
                     "\"status\": " + driver.status + "\n" +
+                    "\"city\": " + driver.city + "\n" +
+                    "\"address\": " + driver.address + "\n" +
+                    "\"number\": " + driver.number + "\n" +
                     "}";
         }
 
